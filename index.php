@@ -14,13 +14,13 @@
 <?php
 require_once 'functions.php';
 
-$words = retriveWords();
 if (!empty($_POST['word'])) {
 	$word = $_POST['word'];
 	$letters = strlen($word);
 	$consonants = calcConsonants($word);
 	$vowels = calcVowels($word);
 
+	$words = retriveWords();
 	$words[] = [
 		'word' => $word,
 		'letters' => $letters,
