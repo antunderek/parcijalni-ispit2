@@ -12,24 +12,14 @@
 </form>
 
 <?php
-$wordsJson = file_get_contents(__DIR__ . '/words.json');
-$words = json_decode($wordsJson);
+require_once 'functions.php';
 
+$words = retriveWords();
 if (!empty($_POST['word'])) {
 	$word = $_POST['word'];
 	$letters = strlen($word);
-	$consonants = 0;
-	$vowels = 0;
-
-	$arr_vowels = ['a', 'e', 'i', 'o', 'u'];
-	for ($i = 0; $i < $letters; $i++) {
-		if (in_array(strtolower($word[$i]), $arr_vowels)) {
-			$vowels++;
-		}
-		else {
-			$consonants++;
-		}
-	}
+	$consonants = calcConsonants($word);
+	$vowels = calcVowels($word);
 
 	$words[] = [
 		'word' => $word,
@@ -38,12 +28,10 @@ if (!empty($_POST['word'])) {
 		'vowels' => $vowels
 	];
 
-	$wordsJson = json_encode($words);
-	file_put_contents(__DIR__ . '/words.json', $wordsJson);
+	updateWords($words);
 }
 
-$wordsJson = file_get_contents(__DIR__ . '/words.json');
-$words = json_decode($wordsJson);
+$words = retriveWords();
 ?>
 
 <table border="1">
